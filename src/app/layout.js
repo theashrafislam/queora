@@ -21,11 +21,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${libreBaskerville.variable} font-serif antialiased max-w-7xl mx-auto`}>
-        <nav>
+      <body className={`${libreBaskerville.variable} font-serif antialiased w-full`}>
+        <nav className="border-b-2 w-full shadow-sm">
           <Navbar />
         </nav>
-        <main>
+        <main className="w-full">
           {children}
         </main>
       </body>
