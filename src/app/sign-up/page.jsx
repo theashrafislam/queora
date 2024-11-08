@@ -1,9 +1,13 @@
 "use client";
+// import { mongodb } from "@/lib/mongodb";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const SignUpPage = () => {
+
+    // const mongodb = mongodb();
+    // console.log(mongodb)
 
     const handleSubmit = (event) => {
         event.preventDefault();
