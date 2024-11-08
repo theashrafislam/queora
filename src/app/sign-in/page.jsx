@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -33,9 +34,9 @@ const LoginPage = () => {
                     {/* Signup with Email */}
                     <p className="text-gray-600 mt-4 text-center text-xs sm:text-sm">
                         Don't have an account?{" "}
-                        <span className="text-blue-500 cursor-pointer font-medium hover:underline">
+                        <Link href="/sign-up" className="text-blue-500 cursor-pointer font-medium hover:underline">
                             Sign up with email
-                        </span>
+                        </Link>
                     </p>
                 </div>
 
@@ -43,7 +44,7 @@ const LoginPage = () => {
                 <div className="hidden md:block border-l border-gray-300 mx-4"></div>
 
                 {/* Right Section */}
-                <div className="md:w-1/2">
+                <form className="md:w-1/2">
                     <h2 className="text-2xl font-semibold mb-4 text-center md:text-left">Login</h2>
                     <div className="mb-4">
                         <label className="block text-sm text-gray-600 mb-1">Email</label>
@@ -64,10 +65,10 @@ const LoginPage = () => {
                     <p className="text-sm text-blue-500 cursor-pointer mb-4 hover:underline text-center md:text-left">
                         Forgot password?
                     </p>
-                    <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150">
+                    <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150">
                         Login
                     </button>
-                </div>
+                </form>
             </div>
 
             {/* Footer */}

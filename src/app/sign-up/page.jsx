@@ -1,7 +1,20 @@
+"use client";
+import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const SignUpPage = () => {
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const userName = form.username.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(name, userName, email, password)
+    }
+
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4 sm:px-6 lg:px-8">
             {/* Container */}
@@ -33,9 +46,9 @@ const SignUpPage = () => {
                     {/* Login Link */}
                     <p className="text-gray-600 mt-4 text-center text-xs sm:text-sm">
                         Already have an account?{" "}
-                        <span className="text-blue-500 cursor-pointer font-medium hover:underline">
+                        <Link href="/sign-in" className="text-blue-500 cursor-pointer font-medium hover:underline">
                             Log in
-                        </span>
+                        </Link>
                     </p>
                 </div>
 
@@ -43,7 +56,7 @@ const SignUpPage = () => {
                 <div className="hidden md:block border-l border-gray-300 mx-4"></div>
 
                 {/* Right Section */}
-                <div className="md:w-1/2">
+                <form onSubmit={handleSubmit} className="md:w-1/2">
                     <h2 className="text-2xl font-semibold mb-4 text-center md:text-left">Sign Up</h2>
                     <div className="mb-4">
                         <label className="block text-sm text-gray-600 mb-1">Name</label>
@@ -51,6 +64,7 @@ const SignUpPage = () => {
                             type="text"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Your name"
+                            name="name"
                         />
                     </div>
                     <div className="mb-4">
@@ -59,6 +73,7 @@ const SignUpPage = () => {
                             type="text"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Choose a username"
+                            name="username"
                         />
                     </div>
                     <div className="mb-4">
@@ -67,6 +82,7 @@ const SignUpPage = () => {
                             type="email"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Your email"
+                            name="email"
                         />
                     </div>
                     <div className="mb-4">
@@ -75,12 +91,13 @@ const SignUpPage = () => {
                             type="password"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Create a password"
+                            name="password"
                         />
                     </div>
-                    <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150">
+                    <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150">
                         Sign Up
                     </button>
-                </div>
+                </form>
             </div>
 
             {/* Footer */}
