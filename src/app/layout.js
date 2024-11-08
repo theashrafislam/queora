@@ -2,6 +2,7 @@ import { Libre_Baskerville } from "next/font/google";
 import "./globals.css";
 import { Metadata } from 'next';
 import Navbar from "./Components/Navbar/Navbar";
+import { Toaster } from "react-hot-toast";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
         <main className="w-full">
           {children}
         </main>
+        <Toaster />
       </body>
     </html>
   );

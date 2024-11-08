@@ -1,23 +1,44 @@
 "use client";
-// import { mongodb } from "@/lib/mongodb";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+import { useState } from "react";
 
 const SignUpPage = () => {
+    const [loading, setLoading] = useState(false)
 
-    // const mongodb = mongodb();
-    // console.log(mongodb)
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const form = event.target;
-        const name = form.name.value;
-        const userName = form.username.value;
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(name, userName, email, password)
-    }
+
+        try {
+            setLoading(true);
+            if (form.password.value.length < 6) {
+                toast.error("Password must be at least 6 characters long.");
+                setLoading(false);
+                return;
+            }
+
+            const user = {
+                name: form.name.value,
+                userName: form.username.value,
+                email: form.email.value,
+                password: form.password.value
+            };
+
+            const response = await axios.post("http://localhost:3000/sign-up/api", user);
+            if (response.status === 200) {
+                toast.success(response.data.message);
+            }
+        } catch (error) {
+            toast.error("Failed to sign up. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4 sm:px-6 lg:px-8">
@@ -98,8 +119,39 @@ const SignUpPage = () => {
                             name="password"
                         />
                     </div>
-                    <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150">
-                        Sign Up
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150 flex items-center justify-center"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <>
+                                {/* SVG Spinner */}
+                                <svg
+                                    className="animate-spin h-5 w-5 text-white mr-2" // Changed color to white
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                    ></path>
+                                </svg>
+                                Signing Up...
+                            </>
+                        ) : (
+                            "Sign Up"
+                        )}
                     </button>
                 </form>
             </div>
