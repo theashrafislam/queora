@@ -5,6 +5,7 @@ import { BsChevronDown, BsPlusCircle } from "react-icons/bs";
 import { HiOutlineHome, HiOutlineSearch, HiOutlineArrowLeft } from "react-icons/hi"; // Import the arrow left icon
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
     const pathName = usePathname();
@@ -12,6 +13,9 @@ const Navbar = () => {
     const [isSearchOpen, setIsSearchOpen] = useState(false); // State to manage search bar visibility
 
     const isActive = (path) => pathName === path;
+
+    const session = useSession();
+    console.log(session)
 
     return (
         <nav>

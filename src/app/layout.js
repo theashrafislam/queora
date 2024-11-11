@@ -3,6 +3,7 @@ import "./globals.css";
 import { Metadata } from 'next';
 import Navbar from "./Components/Navbar/Navbar";
 import { Toaster } from "react-hot-toast";
+import AuthProvider from "@/auth/AuthProvider";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -23,13 +24,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${libreBaskerville.variable} font-serif antialiased w-full`}>
-        <nav className="border-b-2 w-full shadow-sm">
-          <Navbar />
-        </nav>
-        <main className="w-full">
-          {children}
-        </main>
-        <Toaster />
+        <AuthProvider>
+          <nav className="border-b-2 w-full shadow-sm">
+            <Navbar />
+          </nav>
+          <main className="w-full">
+            {children}
+          </main>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

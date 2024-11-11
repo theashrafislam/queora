@@ -1,8 +1,24 @@
+"use client"
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
+
+    const handleLoginForm = async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const res = await signIn("credentials",{
+            email,
+            password,
+            redirect: false
+        });
+        console.log(res)
+    }
+
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4 sm:px-6 lg:px-8">
             {/* Container */}
@@ -44,29 +60,31 @@ const LoginPage = () => {
                 <div className="hidden md:block border-l border-gray-300 mx-4"></div>
 
                 {/* Right Section */}
-                <form className="md:w-1/2">
-                    <h2 className="text-2xl font-semibold mb-4 text-center md:text-left">Login</h2>
+                <form onSubmit={handleLoginForm} className="md:w-1/2">
+                    <h2 className="text-2xl font-semibold mb-4 text-center md:text-left">Sign In</h2>
                     <div className="mb-4">
                         <label className="block text-sm text-gray-600 mb-1">Email</label>
                         <input
                             type="email"
+                            name="email"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="your email"
+                            placeholder="Your email"
                         />
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm text-gray-600 mb-1">Password</label>
                         <input
                             type="password"
+                            name="password"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="your password"
+                            placeholder="Your password"
                         />
                     </div>
                     <p className="text-sm text-blue-500 cursor-pointer mb-4 hover:underline text-center md:text-left">
                         Forgot password?
                     </p>
                     <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150">
-                        Login
+                        Sign In
                     </button>
                 </form>
             </div>

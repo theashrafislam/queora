@@ -31,6 +31,7 @@ const SignUpPage = () => {
 
             const response = await axios.post("http://localhost:3000/sign-up/api", user);
             if (response.status === 200) {
+                event.target.reset();
                 toast.success(response.data.message);
             }
         } catch (error) {
@@ -72,7 +73,7 @@ const SignUpPage = () => {
                     <p className="text-gray-600 mt-4 text-center text-xs sm:text-sm">
                         Already have an account?{" "}
                         <Link href="/sign-in" className="text-blue-500 cursor-pointer font-medium hover:underline">
-                            Log in
+                            Sign In
                         </Link>
                     </p>
                 </div>
