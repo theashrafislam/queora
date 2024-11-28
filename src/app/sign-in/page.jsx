@@ -3,21 +3,39 @@ import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useState } from 'react'
 
 const LoginPage = () => {
 
+    const Router = useRouter();
+    const [loading, setLoading] = useState(false);
+
     const handleLoginForm = async (event) => {
         event.preventDefault();
-        const form = event.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        const res = await signIn("credentials",{
-            email,
-            password,
-            redirect: false
-        });
-        console.log(res)
-    }
+        setLoading(true);
+        const { email, password } = event.target.elements;
+
+        try {
+            const res = await signIn("credentials", {
+                email: email.value,
+                password: password.value,
+                redirect: false
+            });
+            console.log(res)
+            if (res && res.status === 200) {
+                toast.success('Successfully logged in. Enjoy your session!');
+                Router.push('/');
+            } else {
+                toast.error('Login failed. Please check your credentials.');
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4 sm:px-6 lg:px-8">
@@ -83,8 +101,19 @@ const LoginPage = () => {
                     <p className="text-sm text-blue-500 cursor-pointer mb-4 hover:underline text-center md:text-left">
                         Forgot password?
                     </p>
-                    <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150">
-                        Sign In
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150 flex items-center justify-center"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <>
+                                <span className="spinner-border animate-spin inline-block w-4 h-4 border-2 rounded-full border-t-transparent mr-2"></span>
+                                Signing in...
+                            </>
+                        ) : (
+                            'Sign In'
+                        )}
                     </button>
                 </form>
             </div>

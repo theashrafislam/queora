@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { FiBell, FiGlobe, FiEdit3, FiUsers } from "react-icons/fi";
 import { BsChevronDown, BsPlusCircle } from "react-icons/bs";
-import { HiOutlineHome, HiOutlineSearch, HiOutlineArrowLeft } from "react-icons/hi"; // Import the arrow left icon
+import { HiOutlineHome, HiOutlineSearch, HiOutlineArrowLeft } from "react-icons/hi";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -10,12 +10,12 @@ import { useSession } from "next-auth/react";
 const Navbar = () => {
     const pathName = usePathname();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false); // State to manage search bar visibility
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     const isActive = (path) => pathName === path;
 
     const session = useSession();
-    console.log(session)
+    // console.dir(session)
 
     return (
         <nav>
