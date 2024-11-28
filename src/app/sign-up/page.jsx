@@ -39,7 +39,12 @@ const SignUpPage = () => {
             password: password,
             image_url: image
         };
-        console.log(userInfo)
+        // console.log(userInfo)
+        const response = await axios.post(`http://localhost:3000/sign-up/api`, userInfo);
+        if(response.status === 200){
+            event.target.reset();
+            toast.success(response?.data?.message)
+        }
     }
 
 
