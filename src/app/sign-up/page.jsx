@@ -12,6 +12,7 @@ const SignUpPage = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true)
         const form = event.target;
         const full_name = form.full_name.value;
         const user_name = form.user_name.value;
@@ -28,9 +29,15 @@ const SignUpPage = () => {
         if (imageLink) {
             const formData = new FormData();
             formData.append('image', imageLink);
-            const response = await axios.post(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`, formData)
-            setImage(response?.data?.data?.display_url);
-            // console.log(response?.data?.data?.display_url)
+            try {
+                const response = await axios.post(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`, formData)
+                setImage(response?.data?.data?.display_url);
+                // console.log(response?.data?.data?.display_url)
+            } catch (error) {
+                toast.error("Error uploading image.", { duration: 3000 });
+                setLoading(false);
+                return;
+            }
         }
         const userInfo = {
             full_name: full_name,
@@ -40,10 +47,25 @@ const SignUpPage = () => {
             image_url: image
         };
         // console.log(userInfo)
-        const response = await axios.post(`http://localhost:3000/sign-up/api`, userInfo);
-        if(response.status === 200){
-            event.target.reset();
-            toast.success(response?.data?.message)
+        try {
+            const response = await axios.post(`http://localhost:3000/sign-up/api`, userInfo);
+            // console.log(response?.data?.status)
+            if (response?.data?.status === 200) {
+                setLoading(false)
+                event.target.reset();
+                toast.success(response?.data?.message, {
+                    duration: 3000,
+                })
+            } else if (response?.data?.status === 400) {
+                setLoading(false)
+                toast(response?.data?.message, {
+                    icon: '⚠️',
+                    duration: 3000,
+                })
+            }
+        } catch (error) {
+            toast.error('Something went wrong, please try again later.', { duration: 3000 });
+            setLoading(false);
         }
     }
 

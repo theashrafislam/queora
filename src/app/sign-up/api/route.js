@@ -9,7 +9,7 @@ export const POST = async (request) => {
         const userCollection = await db.collection('users');
 
         const emailExist = await userCollection.findOne({ email: newUser.email });
-        const userNameExist = await userCollection.findOne({ userName: newUser.userName });
+        const userNameExist = await userCollection.findOne({ user_name: newUser.user_name });
 
         if (emailExist && userNameExist) {
             return NextResponse.json({ message: "Email and Username already exist", status: 400 });
