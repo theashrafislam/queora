@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 
 const SignUpPage = () => {
     const [loading, setLoading] = useState(false);
-    // const [image, setImage] = useState();
 
     const {
         register,

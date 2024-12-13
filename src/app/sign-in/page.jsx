@@ -5,24 +5,31 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useState } from 'react'
 import GoogleAndGithub from "../Components/LoginButton/GoogleAndGithub";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
 
     const Router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    const handleLoginForm = async (event) => {
-        event.preventDefault();
-        setLoading(true);
-        const { email, password } = event.target.elements;
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
+    const onSubmit = async (data) => {
+        setLoading(true);
+    
         try {
+            // Using the form data directly
             const res = await signIn("credentials", {
-                email: email.value,
-                password: password.value,
-                redirect: false
+                email: data.email,
+                password: data.password,
+                redirect: false,
             });
-            // console.log(res)
+    
+            // Check response status
             if (res && res.status === 200) {
                 toast.success('Successfully logged in. Enjoy your session!');
                 Router.push('/');
@@ -35,6 +42,7 @@ const LoginPage = () => {
             setLoading(false);
         }
     };
+    
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4 sm:px-6 lg:px-8">
@@ -68,7 +76,9 @@ const LoginPage = () => {
                 <div className="hidden md:block border-l border-gray-300 mx-4"></div>
 
                 {/* Right Section */}
-                <form onSubmit={handleLoginForm} className="md:w-1/2">
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="md:w-1/2">
                     <h2 className="text-2xl font-semibold mb-4 text-center md:text-left">Sign In</h2>
                     <div className="mb-4">
                         <label className="block text-sm text-gray-600 mb-1">Email</label>
@@ -77,7 +87,13 @@ const LoginPage = () => {
                             name="email"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Your email"
+                            {...register("email", { required: "E-mail is required" })}
                         />
+                        {errors.email && (
+                            <span className="text-red-500 text-sm pt-1">
+                                {errors.email.message}
+                            </span>
+                        )}
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm text-gray-600 mb-1">Password</label>
@@ -86,11 +102,17 @@ const LoginPage = () => {
                             name="password"
                             className="w-full border rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Your password"
+                            {...register("password", { required: "Password is required" })}
                         />
+                        {errors.password && (
+                            <span className="text-red-500 text-sm pt-1">
+                                {errors.password.message}
+                            </span>
+                        )}
                     </div>
-                    <p className="text-sm text-blue-500 cursor-pointer mb-4 hover:underline text-center md:text-left">
+                    {/* <p className="text-sm text-blue-500 cursor-pointer mb-4 hover:underline text-center md:text-left">
                         Forgot password?
-                    </p>
+                    </p> */}
                     <button
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150 flex items-center justify-center"
