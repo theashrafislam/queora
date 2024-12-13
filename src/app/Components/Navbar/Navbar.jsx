@@ -15,7 +15,7 @@ const Navbar = () => {
     const isActive = (path) => pathName === path;
 
     const session = useSession();
-    // console.dir(session)
+    console.dir(session)
 
     return (
         <nav>
