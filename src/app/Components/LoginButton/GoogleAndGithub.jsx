@@ -5,8 +5,8 @@ import { FcGoogle } from "react-icons/fc";
 const GoogleAndGithub = () => {
 
     const handleSocialLogin = async (provider) => {
-        const response = await signIn(provider);
-        consolel.log(response)
+        const response = await signIn(provider, {redirect: false});
+        console.log(response)
     }
 
     return (

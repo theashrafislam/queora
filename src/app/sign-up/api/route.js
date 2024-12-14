@@ -4,10 +4,19 @@ import bcrypt from "bcryptjs"
 
 export const POST = async (request) => {
     const newUser = await request.json();
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    }).format(new Date());
+
     try {
         const db = await mongodb();
         const userCollection = await db.collection('users');
-
         const emailExist = await userCollection.findOne({ email: newUser.email });
         const userNameExist = await userCollection.findOne({ user_name: newUser.user_name });
 
@@ -20,8 +29,8 @@ export const POST = async (request) => {
         }
 
         const hashPassword = await bcrypt.hash(newUser.password, 14);
-        const response = await userCollection.insertOne({ ...newUser, password: hashPassword });
-        
+        const response = await userCollection.insertOne({ ...newUser, password: hashPassword, created_at: formattedDate});
+
         return NextResponse.json({ message: "Welcome to our community! Sign up completed successfully.", status: 200 });
     } catch (error) {
         console.error("Error parsing request:", error);
