@@ -6,6 +6,7 @@ import { HiOutlineHome, HiOutlineSearch, HiOutlineArrowLeft } from "react-icons/
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { ButtonAsChild } from "../ButtonAsChild/ButtonAsChild";
 
 const Navbar = () => {
     const pathName = usePathname();
@@ -15,7 +16,8 @@ const Navbar = () => {
     const isActive = (path) => pathName === path;
 
     const session = useSession();
-    console.dir(session)
+    // console.dir(session)
+    console.log(session);
 
     return (
         <nav>
@@ -153,18 +155,23 @@ const Navbar = () => {
                         </button>
 
                         {/* Profile Icon Placeholder */}
-                        <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                        {/* <div className="w-8 h-8 bg-gray-300 rounded-full"></div> */}
+                        {session?.data?.user?.image_url && <img className="w-10 h-10 rounded-full border-gray-600 border-2" src={`${session?.data?.user?.image_url}`} alt={`${session?.data?.user?.image_url}`}/>}
 
                         {/* Add Question Button */}
-                        <div className="relative">
-                            <button
-                                className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            >
-                                <span>Add question</span>
-                                <BsChevronDown className="w-4 h-4" />
-                            </button>
-                        </div>
+                        {session?.status === 'authenticated' &&
+                            <div className="relative">
+                                <button
+                                    className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                >
+                                    <span>Add question</span>
+                                    <BsChevronDown className="w-4 h-4" />
+                                </button>
+                            </div>
+                        }
+                        {/* Login button */}
+                        <ButtonAsChild />
                     </div>
                 </div>
             </div>

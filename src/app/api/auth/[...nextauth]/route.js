@@ -5,7 +5,6 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
 import { generateFromEmail } from "unique-username-generator";
-import { NextResponse } from "next/server";
 
 const handler = NextAuth({
     secret: process.env.NEXT_PUBLIC_SECRET_KEY,
@@ -33,14 +32,7 @@ const handler = NextAuth({
                 if (!passwordMatch) {
                     return null;
                 }
-                // return currentUser;
-                console.log(currentUser);
-                return {
-                    email: currentUser.email,
-                    full_name: currentUser.full_name,
-                    image_url: currentUser.image_url,
-                    user_name: currentUser.user_name,
-                };
+                return currentUser;
             }
         }),
         GoogleProvider({
@@ -101,18 +93,8 @@ const handler = NextAuth({
             }
             return user
         },
-        async jwt({ token, user }) {
-            // If this is the first time (i.e., user logs in), add user info to the token
-            if (user) {
-                token.email = user.email;
-                token.full_name = user.full_name;
-                token.image_url = user.image_url;
-                token.user_name = user.user_name;
-            }
-            return token;
-        },
+        
         async session({ session, token }) {
-            // Add custom fields from the token to the session object
             session.user = {
                 email: token.email,
                 full_name: token.full_name,
