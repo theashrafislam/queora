@@ -31,13 +31,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export function DropdownMenuDemo({ image }) {
+    const session = useSession();
     // console.log(image);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="none">
+                <Button variant="none" className={'p-0 border-none transition-all duration-300'}>
                     <div className="py-2 px-3 flex justify-center items-center">
                         {image && <Image width={1000} height={1000} quality={100} className="w-7 h-7 rounded-full" src={`${image}`} alt="profile image" />}
                     </div>
@@ -47,16 +50,13 @@ export function DropdownMenuDemo({ image }) {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <User />
-                        <span>Profile</span>
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <CreditCard />
-                        <span>Billing</span>
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
+                    <Link href={`/profile/${session?.data?.user?.user_name}`}>
+                        <DropdownMenuItem>
+                            <User />
+                            <span>Profile</span>
+                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem>
                         <Settings />
                         <span>Settings</span>
@@ -69,41 +69,6 @@ export function DropdownMenuDemo({ image }) {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <Users />
-                        <span>Team</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                            <UserPlus />
-                            <span>Invite users</span>
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem>
-                                    <Mail />
-                                    <span>Email</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <MessageSquare />
-                                    <span>Message</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>
-                                    <PlusCircle />
-                                    <span>More...</span>
-                                </DropdownMenuItem>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuItem>
-                        <Plus />
-                        <span>New Team</span>
-                        <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem>
                     <Github />
                     <span>GitHub</span>
@@ -112,12 +77,9 @@ export function DropdownMenuDemo({ image }) {
                     <LifeBuoy />
                     <span>Support</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled>
-                    <Cloud />
-                    <span>API</span>
-                </DropdownMenuItem>
+
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { signOut({ callbackUrl: '/sign-in' }) }}>
                     <LogOut />
                     <span>Log out</span>
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

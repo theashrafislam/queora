@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { ButtonAsChild } from "../ButtonAsChild/ButtonAsChild";
 import Image from "next/image";
 import { DropdownMenuDemo } from "../DropdownMenu/DropdownMenu";
+import { Button } from "@/components/ui/button"
 
 const Navbar = () => {
     const pathName = usePathname();
@@ -43,10 +44,13 @@ const Navbar = () => {
                     </div>
 
                     {/* Add Section */}
-                    <div className="flex items-center text-white space-x-2">
+                    {session?.status === 'authenticated' ? <div className="flex items-center text-white space-x-2">
                         <BsPlusCircle className="w-5 h-5" />
                         <span className="font-medium">Add</span>
-                    </div>
+                    </div> : <Button asChild className="bg-red-800">
+                        <Link href="/sign-in">Login</Link>
+                    </Button>}
+
                 </div>
 
                 {/* Mobile Full-Width Search Bar */}
@@ -68,7 +72,7 @@ const Navbar = () => {
                     {/* Home Icon */}
                     <Link href="/">
                         <div className={`cursor-pointer py-2 px-3 ${isActive("/") ? "text-red-600" : "text-gray-600"}`}>
-                            <HiOutlineHome className="w-6 h-6"/>
+                            <HiOutlineHome className="w-6 h-6" />
                         </div>
                     </Link>
 
@@ -94,7 +98,7 @@ const Navbar = () => {
                     </Link>
 
                     {/* profile icon  */}
-                    <DropdownMenuDemo image={session?.data?.user?.image || session?.data?.user?.image_url}/>
+                    {session?.data?.user?.image || session?.data?.user?.image_url ? <DropdownMenuDemo image={session?.data?.user?.image || session?.data?.user?.image_url} /> : <> </>}
 
                     {/* Globe Icon */}
                     <Link href="/world">
@@ -161,7 +165,8 @@ const Navbar = () => {
 
                         {/* Profile Icon Placeholder */}
                         {/* <div className="w-8 h-8 bg-gray-300 rounded-full"></div> */}
-                        {session?.data?.user?.image_url || session?.data?.user?.image && <Image width={1000} height={1000} quality={100} className="w-10 h-10 rounded-full border-gray-600 border-2" src={`${session?.data?.user?.image_url || session?.data?.user?.image}`} alt="profile image" />}
+                        {/* {(session?.data?.user?.image_url || session?.data?.user?.image) && (<Image src={`${session?.data?.user?.image_url || session?.data?.user?.image}`} width={1000} height={1000} className="w-10 h-10 rounded-full border-gray-600 border-2"  alt="profile image" />)} */}
+                        {session?.data?.user?.image || session?.data?.user?.image_url ? <DropdownMenuDemo image={session?.data?.user?.image || session?.data?.user?.image_url} /> : <> </>}
 
                         {/* Add Question Button */}
                         {session?.status === 'authenticated' &&
