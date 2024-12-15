@@ -94,7 +94,7 @@ const SignUpPage = () => {
                         Join Quora and share your knowledge with the world.
                     </p>
                     <p className="text-gray-500 mb-6 text-xs sm:text-sm">
-                        By signing up you agree to Quora's{" "}
+                        By signing up you agree to Quora&apos;s{" "}
                         <span className="text-blue-500 cursor-pointer">Terms of Use</span> and{" "}
                         <span className="text-blue-500 cursor-pointer">Privacy Policy</span>.
                     </p>

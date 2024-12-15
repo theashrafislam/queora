@@ -55,7 +55,7 @@ const LoginPage = () => {
                         A place to share knowledge and know the world better
                     </p>
                     <p className="text-gray-500 mb-6 text-xs sm:text-sm">
-                        By continuing you agree to Quora's{" "}
+                        By continuing you agree to Quora&apos;s{" "}
                         <span className="text-blue-500 cursor-pointer">Terms of Use</span> and{" "}
                         <span className="text-blue-500 cursor-pointer">Privacy Policy</span>.
                     </p>
@@ -65,7 +65,7 @@ const LoginPage = () => {
 
                     {/* Signup with Email */}
                     <p className="text-gray-600 mt-4 text-center text-xs sm:text-sm">
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <Link href="/sign-up" className="text-blue-500 cursor-pointer font-medium hover:underline">
                             Sign up with email
                         </Link>
