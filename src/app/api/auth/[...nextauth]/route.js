@@ -48,10 +48,11 @@ const handler = NextAuth({
         async signIn({ user, account }) {
             if (account.provider === 'google' || account.provider === 'github') {
                 const { name, email, image } = user;
-                const username = generateFromEmail(
-                    email,
-                    3
-                );
+                const username = email.split("@")[0];
+                // const username = generateFromEmail(
+                //     email,
+                //     3
+                // );
                 const formattedDate = new Intl.DateTimeFormat('en-US', {
                     weekday: 'long',
                     year: 'numeric',
@@ -75,16 +76,16 @@ const handler = NextAuth({
                     const userNameExist = await userCollection.findOne({ user_name: username });
                     if (userEmailExist && userNameExist) {
                         console.log('Hello, i am ok here both');
+                        return user;
                     } else if (userNameExist) {
                         console.log("hello i am ok here  username");
+                        return user;
                     } else if (userEmailExist) {
                         console.log('hello i am ok here email');
+                        return user;
                     } else {
-                        const username = generateFromEmail(
-                            email,
-                            3
-                        );
                         const res = await userCollection.insertOne(saveUser);
+                        // user.user_name = username;
                         return user;
                     }
                 } catch (error) {
@@ -93,16 +94,26 @@ const handler = NextAuth({
             }
             return user
         },
-        
-        async session({ session, token }) {
-            session.user = {
-                email: token.email,
-                full_name: token.full_name,
-                image_url: token.image_url,
-                user_name: token.user_name,
-            };
-            return session;
+
+        async jwt({ token, user }) {
+            if (user) {
+                token.email = user.email;
+                token.full_name = user.full_name;
+                token.user_name = user.email.split("@")[0];
+                token.image_url = user.image_url;
+            }
+            return token;
         },
+
+        async session({ session, token }) {
+            session.user.email = token?.email;
+            session.user.full_name = token?.full_name;
+            session.user.image_url = token?.image_url;
+            session.user.user_name = token?.user_name;
+            console.log(session);
+            return session;
+        }
+
     },
     pages: {
         signIn: '/sign-in'

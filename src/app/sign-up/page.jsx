@@ -5,13 +5,16 @@ import axios from "axios";
 import { useState } from "react";
 import GoogleAndGithub from "../Components/LoginButton/GoogleAndGithub";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
@@ -62,6 +65,9 @@ const SignUpPage = () => {
             const response = await axios.post(`http://localhost:3000/sign-up/api`, userInfo);
             if (response?.data?.status === 200) {
                 setLoading(false);
+                reset();
+                router.push('/sign-in');
+                console.log('redirect');
                 toast.success(response?.data?.message, { duration: 3000 });
             } else if (response?.data?.status === 400) {
                 setLoading(false);
