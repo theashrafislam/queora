@@ -6,6 +6,7 @@ import { useState } from "react";
 import GoogleAndGithub from "../Components/LoginButton/GoogleAndGithub";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 const SignUpPage = () => {
     const [loading, setLoading] = useState(false);
@@ -66,8 +67,9 @@ const SignUpPage = () => {
             if (response?.data?.status === 200) {
                 setLoading(false);
                 reset();
+                signOut()
                 router.push('/sign-in');
-                console.log('redirect');
+                // console.log('redirect');
                 toast.success(response?.data?.message, { duration: 3000 });
             } else if (response?.data?.status === 400) {
                 setLoading(false);

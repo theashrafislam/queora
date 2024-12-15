@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
 
-    const Router = useRouter();
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
 
     const {
@@ -32,7 +32,7 @@ const LoginPage = () => {
             // Check response status
             if (res && res.status === 200) {
                 toast.success('Successfully logged in. Enjoy your session!');
-                Router.push('/');
+                router.push('/');
             } else {
                 toast.error('Login failed. Please check your credentials.');
             }

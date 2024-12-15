@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { ButtonAsChild } from "../ButtonAsChild/ButtonAsChild";
 import Image from "next/image";
+import { DropdownMenuDemo } from "../DropdownMenu/DropdownMenu";
 
 const Navbar = () => {
     const pathName = usePathname();
@@ -63,38 +64,41 @@ const Navbar = () => {
                 )}
 
                 {/* Mobile Bottom Icon Bar */}
-                <div className="flex justify-around bg-white border-t border-gray-200 py-2">
+                <div className="flex justify-around bg-white border-t border-gray-200">
                     {/* Home Icon */}
                     <Link href="/">
-                        <div className={`cursor-pointer ${isActive("/") ? "text-red-600" : "text-gray-600"}`}>
-                            <HiOutlineHome className="w-6 h-6" />
+                        <div className={`cursor-pointer py-2 px-3 ${isActive("/") ? "text-red-600" : "text-gray-600"}`}>
+                            <HiOutlineHome className="w-6 h-6"/>
                         </div>
                     </Link>
 
                     {/* Users Icon */}
                     <Link href="/users">
-                        <div className={`cursor-pointer ${isActive("/users") ? "text-red-600" : "text-gray-600"}`}>
+                        <div className={`cursor-pointer py-2 px-3 ${isActive("/users") ? "text-red-600" : "text-gray-600"}`}>
                             <FiUsers className="w-6 h-6" />
                         </div>
                     </Link>
 
                     {/* Edit Icon */}
                     <Link href="/edit">
-                        <div className={`cursor-pointer ${isActive("/edit") ? "text-red-600" : "text-gray-600"}`}>
+                        <div className={`cursor-pointer py-2 px-3 ${isActive("/edit") ? "text-red-600" : "text-gray-600"}`}>
                             <FiEdit3 className="w-6 h-6" />
                         </div>
                     </Link>
 
                     {/* Bell Icon */}
                     <Link href="/notifications">
-                        <div className={`cursor-pointer ${isActive("/notifications") ? "text-red-600" : "text-gray-600"}`}>
+                        <div className={`cursor-pointer py-2 px-3 ${isActive("/notifications") ? "text-red-600" : "text-gray-600"}`}>
                             <FiBell className="w-6 h-6" />
                         </div>
                     </Link>
 
+                    {/* profile icon  */}
+                    <DropdownMenuDemo image={session?.data?.user?.image || session?.data?.user?.image_url}/>
+
                     {/* Globe Icon */}
                     <Link href="/world">
-                        <div className={`cursor-pointer ${isActive("/world") ? "text-red-600" : "text-gray-600"}`}>
+                        <div className={`cursor-pointer py-2 px-3 ${isActive("/world") ? "text-red-600" : "text-gray-600"}`}>
                             <FiGlobe className="w-6 h-6" />
                         </div>
                     </Link>
@@ -157,7 +161,7 @@ const Navbar = () => {
 
                         {/* Profile Icon Placeholder */}
                         {/* <div className="w-8 h-8 bg-gray-300 rounded-full"></div> */}
-                        {session?.data?.user?.image_url || session?.data?.user?.image && <Image width={1000} height={1000} quality={100} className="w-10 h-10 rounded-full border-gray-600 border-2" src={`${session?.data?.user?.image_url || session?.data?.user?.image}`} alt="profile image"/>}
+                        {session?.data?.user?.image_url || session?.data?.user?.image && <Image width={1000} height={1000} quality={100} className="w-10 h-10 rounded-full border-gray-600 border-2" src={`${session?.data?.user?.image_url || session?.data?.user?.image}`} alt="profile image" />}
 
                         {/* Add Question Button */}
                         {session?.status === 'authenticated' &&
