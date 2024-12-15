@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { ButtonAsChild } from "../ButtonAsChild/ButtonAsChild";
+import Image from "next/image";
 
 const Navbar = () => {
     const pathName = usePathname();
@@ -156,7 +157,7 @@ const Navbar = () => {
 
                         {/* Profile Icon Placeholder */}
                         {/* <div className="w-8 h-8 bg-gray-300 rounded-full"></div> */}
-                        {session?.data?.user?.image_url || session?.data?.user?.image && <img className="w-10 h-10 rounded-full border-gray-600 border-2" src={`${session?.data?.user?.image_url || session?.data?.user?.image}`} alt="profile image"/>}
+                        {session?.data?.user?.image_url || session?.data?.user?.image && <Image width={1000} height={1000} quality={100} className="w-10 h-10 rounded-full border-gray-600 border-2" src={`${session?.data?.user?.image_url || session?.data?.user?.image}`} alt="profile image"/>}
 
                         {/* Add Question Button */}
                         {session?.status === 'authenticated' &&
